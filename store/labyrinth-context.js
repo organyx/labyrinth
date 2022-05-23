@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import useMaze from '../hooks/use-fetch';
+import useFetch from '../hooks/use-fetch';
 
 const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_API_PATH}`;
 
@@ -27,7 +27,7 @@ export const LabyrinthContextProvider = ({ children }) => {
   const [gameState, setGameState] = useState({});
   const [gameOptions, setGameOptions] = useState({});
 
-  const { error, isLoading, sendRequest } = useMaze();
+  const { error, isLoading, sendRequest } = useFetch();
 
   const setMazeIdHandler = (playerName, data) => {
     setMazeId(data.maze_id);
