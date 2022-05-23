@@ -1,9 +1,13 @@
 import { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
+import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
 
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
+import useEventListener from '../hooks/use-event-listener';
+
+const urlBase = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
 const Main = () => {
   const {
@@ -94,11 +98,30 @@ const Main = () => {
         {gameState?.state?.toLowerCase() === 'active' && !error && <code className="display-linebreak">{mazeVisual}</code>}
         {(gameState.state === 'won' || gameState.state === 'over') && (
           <>
-            <Image src={`${urlBase}/${gameState['hidden-url']}`} alt={gameState['state-result']} height={300} width={300} />
+            <Image src={`${urlBase}${gameState['hidden-url']}`} alt={gameState['state-result']} height={300} width={300} />
             <button onClick={resetMaze}>Restart the game</button>
           </>
         )}
       </div>
+
+      {gameState?.state?.toLowerCase() === 'active' && (
+        <div className={`${styles.controls} flex column`}>
+          <div className={styles.card} onClick={() => movePlayer({ direction: 'north' })}>
+            <VscArrowUp />
+          </div>
+          <div className="flex row">
+            <div className={styles.card} onClick={() => movePlayer({ direction: 'west' })}>
+              <VscArrowLeft />
+            </div>
+            <div className={styles.card} onClick={() => movePlayer({ direction: 'south' })}>
+              <VscArrowDown />
+            </div>
+            <div className={styles.card} onClick={() => movePlayer({ direction: 'east' })}>
+              <VscArrowRight />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
