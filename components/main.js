@@ -1,8 +1,24 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 
 import styles from './main.module.scss';
 
+import LabyrinthContext from '../store/labyrinth-context';
+
 const Main = () => {
+  const {
+    mazeId,
+    mazeVisual,
+    playerName,
+    makeNewGame,
+    getMazeData,
+    getVisualMazeData,
+    movePlayer,
+    resetMaze,
+    error,
+    isLoading,
+    gameState
+  } = useContext(LabyrinthContext);
+
   const playerNameRef = useRef(null);
   const mazeWidthRef = useRef(null);
   const mazeHeightRef = useRef(null);
@@ -15,6 +31,13 @@ const Main = () => {
     const mazeWidth = +mazeWidthRef?.current?.value || 15;
     const mazeHeight = +mazeHeightRef?.current?.value || 15;
     const mazeDifficulty = +mazeDifficulty?.current?.value || 1;
+
+    makeNewGame({
+      height: mazeHeight,
+      width: mazeWidth,
+      difficulty: mazeDifficulty,
+      playerName
+    });
   };
 
   return (
