@@ -1,0 +1,6 @@
+{
+  "editor.tabSize": 2,
+  "prettier.tabWidth": 2,
+  "prettier.printWidth": 140,
+  "cSpell.words": ["domokun", "eventlistener", "linebreak", "nextjs"]
+}
