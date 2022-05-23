@@ -62,6 +62,20 @@ const Main = () => {
     }
   }, [gameState]);
 
+  const onKeyDownHandler = ({ key }) => {
+    if (key === 'ArrowUp') {
+      movePlayer({ direction: 'north' });
+    } else if (key === 'ArrowDown') {
+      movePlayer({ direction: 'south' });
+    } else if (key === 'ArrowLeft') {
+      movePlayer({ direction: 'west' });
+    } else if (key === 'ArrowRight') {
+      movePlayer({ direction: 'east' });
+    }
+  };
+
+  useEventListener('keydown', onKeyDownHandler);
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>
