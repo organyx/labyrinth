@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import useMaze from '../hooks/useFetch';
+import useMaze from '../hooks/use-fetch';
 
 const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_API_PATH}`;
 
