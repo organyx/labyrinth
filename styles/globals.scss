@@ -34,3 +34,17 @@ a {
   margin-right: -15px;
   margin-left: -15px;
 }
+
+.text {
+  &-green {
+    color: #00b300;
+  }
+
+  &-red {
+    color: #ff0000;
+  }
+
+  &-blue {
+    color: #0000ff;
+  }
+}
