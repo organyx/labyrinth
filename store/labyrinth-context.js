@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useCallback } from 'react';
 import useFetch from '../hooks/use-fetch';
 
 const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_API_PATH}`;
@@ -62,7 +62,7 @@ export const LabyrinthContextProvider = ({ children }) => {
     setGameState(data['game-state']);
   };
 
-  const getMazeData = async () => {
+  const getMazeData = useCallback(async () => {
     sendRequest(
       {
         url: `${url}/${mazeId}`,
@@ -70,13 +70,13 @@ export const LabyrinthContextProvider = ({ children }) => {
       },
       setMazeHandler
     );
-  };
+  }, [mazeId, sendRequest]);
 
   const setVisualMazeHandler = data => {
     setMazeVisual(data);
   };
 
-  const getVisualMazeData = async () => {
+  const getVisualMazeData = useCallback(async () => {
     sendRequest(
       {
         url: `${url}/${mazeId}/print`,
@@ -84,7 +84,7 @@ export const LabyrinthContextProvider = ({ children }) => {
       },
       setVisualMazeHandler
     );
-  };
+  }, [mazeId, sendRequest]);
 
   const movePlayerHandler = async data => {
     await getVisualMazeData();
