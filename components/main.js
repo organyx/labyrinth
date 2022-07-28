@@ -1,7 +1,7 @@
 import { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
 import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
-import { Select, TextInput, Button, Center, Container, Stack } from '@mantine/core';
+import { Select, TextInput, Button, Title, Paper } from '@mantine/core';
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
@@ -80,13 +80,14 @@ const Main = () => {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>
-        The Game {mazeId} {playerName}
-      </h1>
-      {error && <h3>Error: {error}</h3>}
-      <h3 className={styles['game-status']}>Game Status:</h3>
-      <span className={styles['game-status--highlight']}>{gameState.state}</span>
-      <span className={styles['game-status--message']}>{gameState['state-result']}</span>
+      <Title order={3}>The Game ID: {mazeId} </Title>
+      <Title order={3}>Player: {playerName}</Title>
+      {error && <Title order={3}>Error: {error}</Title>}
+      <Title order={3} className={styles['game-status']}>
+        Game Status: <span className={styles['game-status--highlight']}>{gameState.state}</span>
+      </Title>
+
+      <Title order={4} >{gameState['state-result']}</Title>
       {!mazeId && (
         <form onSubmit={formSubmitHandler} className={`flex column ${styles['game-settings']}`}>
           <Select placeholder="Pony Name" label="Choose your pony" data={ponyNames} ref={playerNameRef} />
@@ -100,15 +101,17 @@ const Main = () => {
         </form>
       )}
 
-      <div className={`${styles.grid} flex column`}>
-        {gameState?.state?.toLowerCase() === 'active' && !error && <code className="display-linebreak">{mazeVisual}</code>}
-        {(gameState.state === 'won' || gameState.state === 'over') && (
-          <>
-            <Image src={`${urlBase}${gameState['hidden-url']}`} alt={gameState['state-result']} height={300} width={300} />
-            <button onClick={resetMaze}>Restart the game</button>
-          </>
-        )}
-      </div>
+      <Paper shadow="sm" p="md" withBorder>
+        <div className={`${styles.grid} flex column`}>
+          {gameState?.state?.toLowerCase() === 'active' && !error && <code className="display-linebreak">{mazeVisual}</code>}
+          {(gameState.state === 'won' || gameState.state === 'over') && (
+            <>
+              <Image src={`${urlBase}${gameState['hidden-url']}`} alt={gameState['state-result']} height={300} width={300} />
+              <button onClick={resetMaze}>Restart the game</button>
+            </>
+          )}
+        </div>
+      </Paper>
 
       {gameState?.state?.toLowerCase() === 'active' && (
         <div className={`${styles.controls} flex column`}>
