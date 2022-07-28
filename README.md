@@ -35,8 +35,8 @@ Keyboard controls are done with [`useEventListener`](hooks/use-event-listener.js
 Create `.env.local` file with values
 
 ```
-NEXT_PUBLIC_BASE_URL = Challenge base url
-NEXT_PUBLIC_API_PATH = Maze API endpoint
+NEXT_PUBLIC_BASE_URL = Challenge base url ex. https://ponychallenge.YOUR_DOMAIN.com
+NEXT_PUBLIC_API_PATH = Maze API endpoint ex. pony-challenge/maze
 ```
 
 ## Notes
