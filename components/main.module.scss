@@ -102,12 +102,6 @@
 }
 
 .game-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-
   &--highlight {
     color: #0070f3;
   }
