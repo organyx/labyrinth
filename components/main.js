@@ -1,11 +1,13 @@
 import { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
 import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
-
+import { Select, TextInput, Button, Center, Container, Stack } from '@mantine/core';
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
 import useEventListener from '../hooks/use-event-listener';
+
+import { ponyNames } from '../util/constants';
 
 const urlBase = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
@@ -27,7 +29,7 @@ const Main = () => {
   const playerNameRef = useRef(null);
   const mazeWidthRef = useRef(null);
   const mazeHeightRef = useRef(null);
-  const mazeDifficulty = useRef(null);
+  const mazeDifficultyRef = useRef(null);
 
   const formSubmitHandler = async e => {
     e.preventDefault();
@@ -35,7 +37,7 @@ const Main = () => {
     const playerName = playerNameRef?.current?.value || 'Twilight Sparkle';
     const mazeWidth = +mazeWidthRef?.current?.value || 15;
     const mazeHeight = +mazeHeightRef?.current?.value || 15;
-    const mazeDifficulty = +mazeDifficulty?.current?.value || 1;
+    const mazeDifficulty = +mazeDifficultyRef?.current?.value || 1;
 
     makeNewGame({
       height: mazeHeight,
@@ -87,24 +89,14 @@ const Main = () => {
       <span className={styles['game-status--message']}>{gameState['state-result']}</span>
       {!mazeId && (
         <form onSubmit={formSubmitHandler} className={`flex column ${styles['game-settings']}`}>
-          <div className={styles['input-group']}>
-            <label htmlFor="playerName">Enter player name</label>
-            <input type="text" id="playerName" placeholder="Enter your name" ref={playerNameRef} />
-          </div>
-          <div className={styles['input-group']}>
-            <label htmlFor="mazeWidth">Maze Width</label>
-            <input type="number" id="mazeWidth" placeholder="15" ref={mazeWidthRef} min={15} max={25} />
-          </div>
-          <div className={styles['input-group']}>
-            <label htmlFor="mazeHeight">Maze Height</label>
-            <input type="number" id="mazeHeight" placeholder="15" ref={mazeHeightRef} min={15} max={25} />
-          </div>
-          <div className={styles['input-group']}>
-            <label htmlFor="mazeDifficulty">Difficulty</label>
-            <input type="number" id="mazeDifficulty" placeholder="1" ref={mazeDifficulty} />
-          </div>
+          <Select placeholder="Pony Name" label="Choose your pony" data={ponyNames} ref={playerNameRef} />
+          <TextInput type="number" id="mazeWidth" label="Maze Width" placeholder="15" min={15} max={25} ref={mazeWidthRef} />
+          <TextInput type="number" id="mazeHeight" label="Maze Height" placeholder="15" min={15} max={25} ref={mazeHeightRef} />
+          <TextInput type="number" id="difficulty" label="Difficulty" placeholder="1" ref={mazeDifficultyRef} />
 
-          <button>Start game</button>
+          <Button type="submit" title="Start Game">
+            Start Game
+          </Button>
         </form>
       )}
 
