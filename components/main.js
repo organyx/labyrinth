@@ -18,7 +18,7 @@ const Main = () => {
     }
     getMazeData(mazeId);
     getVisualMazeData(mazeId);
-  }, [mazeId]);
+  }, [mazeId, getMazeData, getVisualMazeData]);
 
   useEffect(() => {
     if (gameState.state === 'over') {
