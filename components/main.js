@@ -1,18 +1,16 @@
 import { useEffect, useRef, useContext } from 'react';
-import Image from 'next/image';
-import { Select, TextInput, Button, Title, Paper } from '@mantine/core';
+import { Select, TextInput, Button, Title } from '@mantine/core';
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
 
 import { ponyNames } from '../util/constants';
+
+import GameBoard from './game-board';
 import GameControls from './game-controls';
 
-const urlBase = `${process.env.NEXT_PUBLIC_BASE_URL}`;
-
 const Main = () => {
-  const { mazeId, mazeVisual, playerName, makeNewGame, getMazeData, getVisualMazeData, resetMaze, error, isLoading, gameState } =
-    useContext(LabyrinthContext);
+  const { mazeId, playerName, makeNewGame, getMazeData, getVisualMazeData, error, gameState } = useContext(LabyrinthContext);
 
   const playerNameRef = useRef(null);
   const mazeWidthRef = useRef(null);
@@ -75,17 +73,7 @@ const Main = () => {
         </form>
       )}
 
-      <Paper shadow="sm" p="md" withBorder>
-        <div className={`${styles.grid} flex column`}>
-          {gameState?.state?.toLowerCase() === 'active' && !error && <code className="display-linebreak">{mazeVisual}</code>}
-          {(gameState.state === 'won' || gameState.state === 'over') && (
-            <>
-              <Image src={`${urlBase}${gameState['hidden-url']}`} alt={gameState['state-result']} height={300} width={300} />
-              <button onClick={resetMaze}>Restart the game</button>
-            </>
-          )}
-        </div>
-      </Paper>
+      <GameBoard />
 
       <GameControls />
     </main>
