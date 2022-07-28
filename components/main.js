@@ -1,30 +1,18 @@
 import { useEffect, useRef, useContext } from 'react';
 import Image from 'next/image';
-import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
 import { Select, TextInput, Button, Title, Paper } from '@mantine/core';
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
-import useEventListener from '../hooks/use-event-listener';
 
 import { ponyNames } from '../util/constants';
+import GameControls from './game-controls';
 
 const urlBase = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
 const Main = () => {
-  const {
-    mazeId,
-    mazeVisual,
-    playerName,
-    makeNewGame,
-    getMazeData,
-    getVisualMazeData,
-    movePlayer,
-    resetMaze,
-    error,
-    isLoading,
-    gameState
-  } = useContext(LabyrinthContext);
+  const { mazeId, mazeVisual, playerName, makeNewGame, getMazeData, getVisualMazeData, resetMaze, error, isLoading, gameState } =
+    useContext(LabyrinthContext);
 
   const playerNameRef = useRef(null);
   const mazeWidthRef = useRef(null);
@@ -64,20 +52,6 @@ const Main = () => {
     }
   }, [gameState]);
 
-  const onKeyDownHandler = ({ key }) => {
-    if (key === 'ArrowUp') {
-      movePlayer({ direction: 'north' });
-    } else if (key === 'ArrowDown') {
-      movePlayer({ direction: 'south' });
-    } else if (key === 'ArrowLeft') {
-      movePlayer({ direction: 'west' });
-    } else if (key === 'ArrowRight') {
-      movePlayer({ direction: 'east' });
-    }
-  };
-
-  useEventListener('keydown', onKeyDownHandler);
-
   return (
     <main className={styles.main}>
       <Title order={3}>The Game ID: {mazeId} </Title>
@@ -87,7 +61,7 @@ const Main = () => {
         Game Status: <span className={styles['game-status--highlight']}>{gameState.state}</span>
       </Title>
 
-      <Title order={4} >{gameState['state-result']}</Title>
+      <Title order={4}>{gameState['state-result']}</Title>
       {!mazeId && (
         <form onSubmit={formSubmitHandler} className={`flex column ${styles['game-settings']}`}>
           <Select placeholder="Pony Name" label="Choose your pony" data={ponyNames} ref={playerNameRef} />
@@ -113,24 +87,7 @@ const Main = () => {
         </div>
       </Paper>
 
-      {gameState?.state?.toLowerCase() === 'active' && (
-        <div className={`${styles.controls} flex column`}>
-          <div className={styles.card} onClick={() => movePlayer({ direction: 'north' })}>
-            <VscArrowUp />
-          </div>
-          <div className="flex row">
-            <div className={styles.card} onClick={() => movePlayer({ direction: 'west' })}>
-              <VscArrowLeft />
-            </div>
-            <div className={styles.card} onClick={() => movePlayer({ direction: 'south' })}>
-              <VscArrowDown />
-            </div>
-            <div className={styles.card} onClick={() => movePlayer({ direction: 'east' })}>
-              <VscArrowRight />
-            </div>
-          </div>
-        </div>
-      )}
+      <GameControls />
     </main>
   );
 };
