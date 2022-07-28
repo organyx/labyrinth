@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext } from 'react';
-import { Select, TextInput, Button, Title } from '@mantine/core';
+import { Select, TextInput, Button } from '@mantine/core';
 import styles from './main.module.scss';
 
 import LabyrinthContext from '../store/labyrinth-context';
@@ -8,9 +8,10 @@ import { ponyNames } from '../util/constants';
 
 import GameBoard from './game-board';
 import GameControls from './game-controls';
+import GameInfo from './game-info';
 
 const Main = () => {
-  const { mazeId, playerName, makeNewGame, getMazeData, getVisualMazeData, error, gameState } = useContext(LabyrinthContext);
+  const { mazeId, makeNewGame, getMazeData, getVisualMazeData, gameState } = useContext(LabyrinthContext);
 
   const playerNameRef = useRef(null);
   const mazeWidthRef = useRef(null);
@@ -52,14 +53,8 @@ const Main = () => {
 
   return (
     <main className={styles.main}>
-      <Title order={3}>The Game ID: {mazeId} </Title>
-      <Title order={3}>Player: {playerName}</Title>
-      {error && <Title order={3}>Error: {error}</Title>}
-      <Title order={3} className={styles['game-status']}>
-        Game Status: <span className={styles['game-status--highlight']}>{gameState.state}</span>
-      </Title>
+      <GameInfo />
 
-      <Title order={4}>{gameState['state-result']}</Title>
       {!mazeId && (
         <form onSubmit={formSubmitHandler} className={`flex column ${styles['game-settings']}`}>
           <Select placeholder="Pony Name" label="Choose your pony" data={ponyNames} ref={playerNameRef} />
